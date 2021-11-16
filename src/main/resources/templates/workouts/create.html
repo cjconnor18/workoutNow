@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h2>Lets create a workout!</h2>
+
+
+    <form method="post">
+
+        <input type="text" name="location">
+
+        <input type="submit" value="submit me">
+    </form>
+
+    <p th:text="${user}"></p>
+</body>
+</html>

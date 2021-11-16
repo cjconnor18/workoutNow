@@ -1,5 +1,6 @@
 package com.workoutnow.workoutnow.models;
 
+import com.workoutnow.workoutnow.controllers.AuthenticationController;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.Entity;
@@ -16,7 +17,7 @@ public class User extends AbstractEntity {
 
     private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-    public User() {}
+    public User() {};
 
     public User(String username, String password) {
         this.username = username;
