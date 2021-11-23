@@ -5,12 +5,19 @@
     <title>Title</title>
 </head>
 <body>
+    <header th:replace="fragments :: header"></header>
+
     <h2>Lets create a workout!</h2>
 
 
     <form method="post">
 
-        <input type="text" name="location">
+        <label for="location">Select Location: </label>
+        <select name="locationId" id="location">
+            <option th:each="location:${locations}" th:value="${location.id}" th:text="${location.facilityName + '-' + location.city + ', ' + location.state} "></option>
+        </select>
+        <a th:href="@{/location/add}">Add Location</a>
+
 
         <input type="submit" value="submit me">
     </form>

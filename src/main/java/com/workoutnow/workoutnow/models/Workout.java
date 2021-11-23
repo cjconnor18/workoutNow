@@ -1,33 +1,31 @@
 package com.workoutnow.workoutnow.models;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 
 @Entity
 public class Workout extends AbstractEntity{
 
-    @OneToOne
+    @ManyToOne
     private User user;
 
     private final ArrayList<String> exercises = new ArrayList<>();
 
     private Date dateOfWorkout;
 
-    private String location;
+    @ManyToOne
+    private Location location;
 
     public Workout() {};
 
-    public Workout(User user, Date date, String location) {
+    public Workout(User user, Date date, Location location) {
         this.user = user;
         this.location = location;
         this.dateOfWorkout = date;
     };
 
-    public Workout(User user, String location) {
+    public Workout(User user, Location location) {
         this(user, new Date(), location);
     };
 
@@ -48,11 +46,11 @@ public class Workout extends AbstractEntity{
         this.dateOfWorkout = dateOfWorkout;
     }
 
-    public String getLocation() {
+    public Location getLocation() {
         return location;
     }
 
-    public void setLocation(String location) {
+    public void setLocation(Location location) {
         this.location = location;
     }
 

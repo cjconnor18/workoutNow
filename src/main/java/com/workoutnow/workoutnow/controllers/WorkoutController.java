@@ -1,10 +1,13 @@
 package com.workoutnow.workoutnow.controllers;
 
+import com.workoutnow.workoutnow.models.Location;
 import com.workoutnow.workoutnow.models.User;
 import com.workoutnow.workoutnow.models.Workout;
+import com.workoutnow.workoutnow.models.data.LocationRepository;
 import com.workoutnow.workoutnow.models.data.UserRepository;
 import com.workoutnow.workoutnow.models.data.WorkoutRepository;
 import jdk.jshell.spi.ExecutionControl;
+import org.hibernate.jdbc.Work;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -27,6 +32,9 @@ public class WorkoutController {
     @Autowired
     WorkoutRepository workoutRepository;
 
+    @Autowired
+    LocationRepository locationRepository;
+
     @GetMapping("")
     public String listWorkouts (Model model, HttpSession session){
         int currentUserId = (Integer) session.getAttribute("user");
@@ -38,27 +46,33 @@ public class WorkoutController {
 
     @GetMapping("create")
     public String generateWorkout(Model model, HttpSession session, HttpServletRequest request) {
-//        int currentUserId = (Integer) session.getAttribute("user");
-//        User currentUser = userRepository.findById(currentUserId);
-//        Workout workout = new Workout(currentUser);
-//        model.addAttribute(workout);
-//        session.getAttribute("user");
-        // model.addAttribute("user", session.getAttribute(request.getSession().getId()));
-//        model.addAttribute("user", session.getAttribute("user"));
+        int currentUserId = (Integer) session.getAttribute("user");
+        User currentUser = userRepository.findById(currentUserId);
+
+        model.addAttribute("locations", currentUser.getLocations());
         return "workouts/create";
     }
 
     @PostMapping("create")
-    public String processingCreateForm(@RequestParam String location, HttpSession session) {
+    public String processingCreateForm(Model model, @RequestParam Integer locationId, HttpSession session) {
 
-        if(location.length() > 0) {
+
             int currentUserId = (Integer) session.getAttribute("user");
             User currentUser = userRepository.findById(currentUserId);
 
-            Workout currentWorkout = new Workout(currentUser, location);
-            workoutRepository.save(currentWorkout);
-        }
+            Optional<Location> location = locationRepository.findById(locationId);
+            if(!location.isPresent()) {
+                return "redirect: ";
+            }
 
-        return "redirect:";
+            Workout currentWorkout = new Workout(currentUser, location.get());
+            workoutRepository.save(currentWorkout);
+
+        model.addAttribute("user", currentUser);
+        model.addAttribute("workouts", workoutRepository.findByUser(currentUser));
+        return "workouts/index";
+
     }
+
+
 }

@@ -8,11 +8,12 @@
 <div th:fragment="header" class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
-            <a th:href="@{/}" class="navbar-brand">Workout Now</a>
+            <a href="/" class="navbar-brand">Workout Now</a>
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li><a th:href="@{/add}">Add Workout</a></li>
+                <li><a href="/workouts/create">Create Workout</a></li>
+                <li><a href="/workouts/">Display Workouts</a></li>
                 <li><a th:href="@{/logout}">Logout</a></li>
             </ul>
         </div>

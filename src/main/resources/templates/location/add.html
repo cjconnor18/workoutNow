@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <header th:replace="fragments :: header"></header>
+
+    <form method="post">
+        <label>Facility Name: <input type="text" name="facilityName"></label>
+        <label>City: <input type="text" name="city"></label>
+        <label>State: <input type="text" name="state"></label>
+        <input type="submit" value="Create Location">
+    </form>
+</body>
+</html>
