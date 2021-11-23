@@ -11,7 +11,7 @@
 <p th:text="${'Hello ' + user.username}"></p>
 <table>
     <tr th:each="workout : ${workouts}">
-
+        <td th:text="${workout.dateOfWorkout}"></td>
         <td th:text="${workout.location.facilityName}"></td>
         <td th:text="${workout.location.city + ', ' + workout.location.state}"></td>
         <td th:text="${workout.user.username}"></td>
