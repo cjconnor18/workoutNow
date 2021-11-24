@@ -3,6 +3,7 @@ package com.workoutnow.workoutnow.models;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Workout extends AbstractEntity{
@@ -10,7 +11,8 @@ public class Workout extends AbstractEntity{
     @ManyToOne
     private UserProfile userProfile;
 
-    private final ArrayList<String> exercises = new ArrayList<>();
+    @OneToMany(mappedBy = "workout")
+    private final List<LiftingExerciseGroup> liftingExerciseGroups = new ArrayList<>();
 
     private Date dateOfWorkout;
 
@@ -33,8 +35,8 @@ public class Workout extends AbstractEntity{
         return userProfile;
     }
 
-    public ArrayList<String> getExercises() {
-        return exercises;
+    public List<LiftingExerciseGroup> getExercises() {
+        return this.liftingExerciseGroups;
     }
 
     public Date getDateOfWorkout() {
@@ -53,13 +55,13 @@ public class Workout extends AbstractEntity{
         this.location = location;
     }
 
-    public void addExercise(String anExercise) {
-        this.exercises.add(anExercise);
+    public void addExercise(LiftingExerciseGroup liftingExerciseGroup) {
+        this.liftingExerciseGroups.add(liftingExerciseGroup);
     }
 
-    public void removeExercise(String anExercise) {
-        if(this.exercises.contains(anExercise)){
-            exercises.remove(anExercise);
+    public void removeExercise(LiftingExerciseGroup liftingExerciseGroup) {
+        if(this.liftingExerciseGroups.contains(liftingExerciseGroup)){
+            this.liftingExerciseGroups.remove(liftingExerciseGroup);
         }
     }
 }

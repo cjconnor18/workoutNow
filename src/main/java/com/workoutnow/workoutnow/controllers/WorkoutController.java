@@ -1,11 +1,7 @@
 package com.workoutnow.workoutnow.controllers;
 
-import com.workoutnow.workoutnow.models.Location;
-import com.workoutnow.workoutnow.models.User;
-import com.workoutnow.workoutnow.models.Workout;
-import com.workoutnow.workoutnow.models.data.LocationRepository;
-import com.workoutnow.workoutnow.models.data.UserRepository;
-import com.workoutnow.workoutnow.models.data.WorkoutRepository;
+import com.workoutnow.workoutnow.models.*;
+import com.workoutnow.workoutnow.models.data.*;
 import jdk.jshell.spi.ExecutionControl;
 import org.hibernate.jdbc.Work;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,10 +24,19 @@ public class WorkoutController {
     UserRepository userRepository;
 
     @Autowired
+    UserProfileRepository userProfileRepository;
+
+    @Autowired
     WorkoutRepository workoutRepository;
 
     @Autowired
     LocationRepository locationRepository;
+
+    @Autowired
+    LiftingExerciseGroupRepository liftingExerciseGroupRepository;
+
+    @Autowired
+    LiftingExerciseRepository liftingExerciseRepository;
 
     @GetMapping("")
     public String listWorkouts (Model model, HttpSession session){
@@ -84,10 +89,35 @@ public class WorkoutController {
        return "workouts/display";
     }
 
-//    @GetMapping("display/{workoutId}/addLiftingGroupExercise")
-//    public String addLiftingGroupExerciseToWorkout() {
-//
-//        return
-//    }
+    @GetMapping("display/{workoutId}/addLiftingGroupExercise")
+    public String addLiftingGroupExerciseToWorkout(Model model, HttpSession session) {
+
+        int currentUserId = (Integer) session.getAttribute("user");
+        UserProfile currentProfile = userProfileRepository.findByUserId(currentUserId);
+
+        model.addAttribute("exercises", liftingExerciseRepository.findByUserProfiles(currentProfile));
+
+        return "workouts/addLiftingGroupExercise";
+    }
+
+    @PostMapping("display/{workoutId}/addLiftingGroupExercise")
+    public String processAddLiftingGroupExerciseToWorkout(@PathVariable Integer workoutId, @RequestParam Integer exerciseId, HttpSession session) {
+
+        int currentUserId = (Integer) session.getAttribute("user");
+        UserProfile currentProfile = userProfileRepository.findByUserId(currentUserId);
+
+        Optional<LiftingExercise> currentExercise = liftingExerciseRepository.findById(exerciseId);
+        Optional<Workout> currentWorkout = workoutRepository.findById(workoutId);
+        if(!currentExercise.isPresent() || !currentWorkout.isPresent()) {
+            return "redirect:";
+        }
+
+
+        LiftingExerciseGroup newExerciseGroup = new LiftingExerciseGroup(currentExercise.get());
+        newExerciseGroup.setWorkout(currentWorkout.get());
+        liftingExerciseGroupRepository.save(newExerciseGroup);
+
+        return "redirect:/workouts/display/" + workoutId;
+    }
 
 }

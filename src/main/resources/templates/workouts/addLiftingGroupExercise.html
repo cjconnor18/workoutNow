@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <header th:replace="fragments :: header"></header>
+
+    <h2>Lets add an Exercise!</h2>
+
+
+    <form method="post">
+
+        <label for="exercise">Select Exercise: </label>
+        <select name="exerciseId" id="exercise">
+            <option th:each="exercise:${exercises}" th:value="${exercise.id}" th:text="${exercise.name} "></option>
+        </select>
+        <a th:href="@{/lifting-exercise/add}">Add Exercise</a>
+
+
+        <input type="submit" value="addExercise">
+    </form>
+
+    <p th:text="${user}"></p>
+</body>
+</html>

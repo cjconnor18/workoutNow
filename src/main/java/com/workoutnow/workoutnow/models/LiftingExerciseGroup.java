@@ -1,5 +1,6 @@
 package com.workoutnow.workoutnow.models;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
@@ -10,8 +11,11 @@ public class LiftingExerciseGroup extends AbstractEntity {
     @ManyToOne
     private LiftingExercise liftingExercise;
 
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.ALL})
     private RepsAndWeights repsAndWeights;
+
+    @ManyToOne
+    private Workout workout;
 
     private String note;
 
@@ -27,6 +31,10 @@ public class LiftingExerciseGroup extends AbstractEntity {
         this(liftingExercise,repsAndWeights,"");
     }
 
+    public LiftingExerciseGroup(LiftingExercise liftingExercise) {
+        this(liftingExercise,new RepsAndWeights());
+    }
+
     public LiftingExercise getLiftingExercise() {
         return liftingExercise;
     }
@@ -37,6 +45,10 @@ public class LiftingExerciseGroup extends AbstractEntity {
 
     public String getNote() {
         return note;
+    }
+
+    public Workout getWorkout() {
+        return workout;
     }
 
     public void setLiftingExercise(LiftingExercise liftingExercise) {
@@ -51,4 +63,7 @@ public class LiftingExerciseGroup extends AbstractEntity {
         this.note = note;
     }
 
+    public void setWorkout(Workout workout) {
+        this.workout = workout;
+    }
 }
