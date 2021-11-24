@@ -8,15 +8,34 @@
 
 <header th:replace="fragments :: header"></header>
 
-<p th:text="${'Workout ' + workout.id}"></p>
+<p th:text="${'Workout: ' + workout.id}"></p>
+
+<p th:text="${'User Name: ' + workout.userProfile.firstName + ' ' + workout.userProfile.lastName}"></p>
+
+<p th:text="${'Date: ' + workout.dateOfWorkout}"></p>
+
+<p th:text="${'Facility Name: ' + workout.location.facilityName}"></p>
+
+<p th:text="${'Location(City, State): ' + workout.location.city + ', ' + workout.location.state}"></p>
+
 <table>
     <tr>
-        <td th:text="${workout.dateOfWorkout}"></td>
-        <td th:text="${workout.location.facilityName}"></td>
-        <td th:text="${workout.location.city + ', ' + workout.location.state}"></td>
-        <td th:text="${workout.userProfile.firstName + ' ' + workout.userProfile.lastName}"></td>
+        <th>Lifting Exercises</th>
+    </tr>
+    <tr>
+        <td>Coming Soon!</td>
     </tr>
 </table>
+
+<table>
+    <tr>
+        <th>Cardio Exercises</th>
+    </tr>
+    <tr>
+        <td>Coming Soon!</td>
+    </tr>
+</table>
+
 
 </body>
 </html>
