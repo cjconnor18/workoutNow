@@ -27,6 +27,9 @@ public class UserProfile extends AbstractEntity {
     @OneToMany(mappedBy = "userProfile")
     private final List<Workout> workouts = new ArrayList<>();
 
+    @ManyToMany
+    private final List<LiftingExercise> liftingExercises = new ArrayList<>();
+
     public UserProfile() {};
 
     public UserProfile(User user, String firstName, String lastName, String email) {
@@ -76,4 +79,7 @@ public class UserProfile extends AbstractEntity {
 
     public void addLocation(Location location) {this.locations.add(location); }
 
+    public List<LiftingExercise> getLiftingExercises() {
+        return liftingExercises;
+    }
 }

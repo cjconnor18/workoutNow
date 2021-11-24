@@ -5,9 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class RepsAndWeights {
-    private final List<Integer> reps = new ArrayList<>();
-    private final List<Double> weights = new ArrayList<>();
+public class RepsAndWeights extends AbstractEntity {
+
+    private final ArrayList<Integer> reps = new ArrayList<>();
+    private final ArrayList<Double> weights = new ArrayList<>();
 
     public RepsAndWeights() {};
 

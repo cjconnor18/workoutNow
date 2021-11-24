@@ -1,6 +1,7 @@
 package com.workoutnow.workoutnow.models;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import java.util.ArrayList;
@@ -15,6 +16,11 @@ public class LiftingExercise extends AbstractEntity{
 
     @OneToMany(mappedBy = "liftingExercise")
     private List<LiftingExerciseGroup> LiftingExerciseGroup = new ArrayList<>();
+
+    @ManyToMany
+    private final List<UserProfile> userProfiles = new ArrayList<>();
+
+    public LiftingExercise() {};
 
     public LiftingExercise(String name, String equipment) {
         this.name = name;
@@ -35,5 +41,13 @@ public class LiftingExercise extends AbstractEntity{
 
     public void setEquipment(String equipment) {
         this.equipment = equipment;
+    }
+
+    public List<com.workoutnow.workoutnow.models.LiftingExerciseGroup> getLiftingExerciseGroup() {
+        return LiftingExerciseGroup;
+    }
+
+    public void addUserProfile(UserProfile userProfile) {
+        this.userProfiles.add(userProfile);
     }
 }

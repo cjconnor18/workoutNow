@@ -84,5 +84,10 @@ public class WorkoutController {
        return "workouts/display";
     }
 
+//    @GetMapping("display/{workoutId}/addLiftingGroupExercise")
+//    public String addLiftingGroupExerciseToWorkout() {
+//
+//        return
+//    }
 
 }
