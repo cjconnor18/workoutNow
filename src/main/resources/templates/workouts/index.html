@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<header th:replace="fragments :: header"></header>
+
+<p th:text="${'Hello ' + user.username}"></p>
+<table>
+    <tr th:each="workout : ${workouts}">
+        <td th:text="${workout.dateOfWorkout}"></td>
+        <td th:text="${workout.location.facilityName}"></td>
+        <td th:text="${workout.location.city + ', ' + workout.location.state}"></td>
+        <td th:text="${workout.user.username}"></td>
+    </tr>
+</table>
+
+</body>
+</html>
