@@ -39,8 +39,8 @@ public class WorkoutController {
     public String listWorkouts (Model model, HttpSession session){
         int currentUserId = (Integer) session.getAttribute("user");
         User currentUser = userRepository.findById(currentUserId);
-        model.addAttribute("user", currentUser);
-        model.addAttribute("workouts", workoutRepository.findByUser(currentUser));
+        model.addAttribute("user", currentUser.getUserProfile());
+        model.addAttribute("workouts", workoutRepository.findByUserProfile(currentUser.getUserProfile()));
         return "workouts/index";
     }
 
@@ -49,7 +49,7 @@ public class WorkoutController {
         int currentUserId = (Integer) session.getAttribute("user");
         User currentUser = userRepository.findById(currentUserId);
 
-        model.addAttribute("locations", currentUser.getLocations());
+        model.addAttribute("locations", currentUser.getUserProfile().getLocations());
         return "workouts/create";
     }
 
@@ -65,11 +65,11 @@ public class WorkoutController {
                 return "redirect: ";
             }
 
-            Workout currentWorkout = new Workout(currentUser, location.get());
+            Workout currentWorkout = new Workout(currentUser.getUserProfile(), location.get());
             workoutRepository.save(currentWorkout);
 
-        model.addAttribute("user", currentUser);
-        model.addAttribute("workouts", workoutRepository.findByUser(currentUser));
+        model.addAttribute("user", currentUser.getUserProfile());
+        model.addAttribute("workouts", workoutRepository.findByUserProfile(currentUser.getUserProfile()));
         return "workouts/index";
 
     }
