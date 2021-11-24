@@ -11,13 +11,11 @@ import org.hibernate.jdbc.Work;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -72,6 +70,18 @@ public class WorkoutController {
         model.addAttribute("workouts", workoutRepository.findByUserProfile(currentUser.getUserProfile()));
         return "workouts/index";
 
+    }
+
+    @GetMapping("display/{workoutId}")
+    public String displayWorkout(@PathVariable Integer workoutId, Model model) {
+       Optional<Workout> workoutOpt = workoutRepository.findById(workoutId);
+       if(!workoutOpt.isPresent()) {
+           return "redirect:";
+       }
+
+       model.addAttribute("workout", workoutOpt.get());
+
+       return "workouts/display";
     }
 
 
