@@ -1,8 +1,10 @@
 package com.workoutnow.workoutnow.models;
 
+import javax.persistence.Entity;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 public class RepsAndWeights {
     private final List<Integer> reps = new ArrayList<>();
     private final List<Double> weights = new ArrayList<>();
