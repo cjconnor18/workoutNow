@@ -82,4 +82,8 @@ public class UserProfile extends AbstractEntity {
     public List<LiftingExercise> getLiftingExercises() {
         return liftingExercises;
     }
+
+    public void addLiftingExercise(LiftingExercise liftingExercise) {
+        this.liftingExercises.add(liftingExercise);
+    }
 }

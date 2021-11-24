@@ -57,6 +57,7 @@ public class LiftingExerciseController {
         UserProfile currentUserProfile = userProfileRepository.findByUserId(currentUserId);
 
         LiftingExercise newExercise = new LiftingExercise(name, equipment);
+        currentUserProfile.addLiftingExercise(newExercise);
         newExercise.addUserProfile(currentUserProfile);
         liftingExerciseRepository.save(newExercise);
 
