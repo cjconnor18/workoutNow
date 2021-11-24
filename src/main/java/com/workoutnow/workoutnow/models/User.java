@@ -3,9 +3,7 @@ package com.workoutnow.workoutnow.models;
 import com.workoutnow.workoutnow.controllers.AuthenticationController;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,11 +19,8 @@ public class User extends AbstractEntity {
 
     private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
-    @OneToMany(mappedBy = "user")
-    private final List<Workout> workouts = new ArrayList<>();
-
-    @ManyToMany
-    private final List<Location> locations = new ArrayList<>();
+    @OneToOne(cascade = {CascadeType.ALL})
+    private UserProfile userProfile;
 
     public User() {};
 
@@ -42,15 +37,12 @@ public class User extends AbstractEntity {
         return encoder.matches(password, pwHash);
     }
 
-    public void addWorkout(Workout workout) {
-        this.workouts.add(workout);
+    public UserProfile getUserProfile() {
+        return userProfile;
     }
 
-    public List<Workout> getWorkouts() {
-        return this.workouts;
+    public void setUserProfile(UserProfile userProfile) {
+        this.userProfile = userProfile;
     }
 
-    public List<Location> getLocations() {return this.locations; }
-
-    public void addLocation(Location location) {this.locations.add(location); }
 }

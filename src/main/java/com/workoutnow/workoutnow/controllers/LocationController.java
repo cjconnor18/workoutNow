@@ -38,8 +38,8 @@ public class LocationController {
         User currentUser = userRepository.findById(currentUserId);
 
         Location newLocation = new Location(facilityName, city, state);
-        currentUser.addLocation(newLocation);
-        newLocation.addUser(currentUser);
+        currentUser.getUserProfile().addLocation(newLocation);
+        newLocation.addUser(currentUser.getUserProfile());
         locationRepository.save(newLocation);
 
 

@@ -8,7 +8,7 @@ import java.util.Date;
 public class Workout extends AbstractEntity{
 
     @ManyToOne
-    private User user;
+    private UserProfile userProfile;
 
     private final ArrayList<String> exercises = new ArrayList<>();
 
@@ -19,20 +19,19 @@ public class Workout extends AbstractEntity{
 
     public Workout() {};
 
-    public Workout(User user, Date date, Location location) {
-        this.user = user;
+    public Workout(UserProfile userProfile, Date date, Location location) {
+        this.userProfile = userProfile;
         this.location = location;
         this.dateOfWorkout = date;
     };
 
-    public Workout(User user, Location location) {
-        this(user, new Date(), location);
+    public Workout(UserProfile userProfile, Location location) {
+        this(userProfile, new Date(), location);
     };
 
-    public User getUser() {
-        return user;
+    public UserProfile getUserProfile() {
+        return userProfile;
     }
-
 
     public ArrayList<String> getExercises() {
         return exercises;

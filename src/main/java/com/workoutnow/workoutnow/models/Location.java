@@ -17,7 +17,7 @@ public class Location extends AbstractEntity{
     private final List<Workout> workouts = new ArrayList<>();
 
     @ManyToMany(mappedBy = "locations")
-    private final List<User> users = new ArrayList<>();
+    private final List<UserProfile> userProfiles = new ArrayList<>();
 
 
 
@@ -55,11 +55,11 @@ public class Location extends AbstractEntity{
         this.facilityName = facilityName;
     }
 
-    public List<User> getUsers() {
-        return this.users;
+    public List<UserProfile> getUsers() {
+        return this.userProfiles;
     }
 
-    public void addUser(User user) {
-        this.users.add(user);
+    public void addUser(UserProfile userProfile) {
+        this.userProfiles.add(userProfile);
     }
 }
