@@ -41,6 +41,12 @@ public class WorkoutController {
     @Autowired
     RepsAndWeightsRepository repsAndWeightsRepository;
 
+    @Autowired
+    CardioExerciseGroupRepository cardioExerciseGroupRepository;
+
+    @Autowired
+    CardioExerciseRepository cardioExerciseRepository;
+
     @GetMapping("")
     public String listWorkouts (Model model, HttpSession session){
         int currentUserId = (Integer) session.getAttribute("user");
@@ -176,4 +182,14 @@ public class WorkoutController {
 
     }
 
+    @GetMapping("display/{workoutId}/addCardioGroupExercise")
+    public String addCardioGroupExerciseToWorkout(Model model, HttpSession session) {
+
+        int currentUserId = (Integer) session.getAttribute("user");
+        UserProfile currentProfile = userProfileRepository.findByUserId(currentUserId);
+
+        model.addAttribute("exercises", cardioExerciseRepository.findByUserProfiles(currentProfile));
+
+        return "workouts/addCardioGroupExercise";
+    }
 }
