@@ -192,4 +192,25 @@ public class WorkoutController {
 
         return "workouts/addCardioGroupExercise";
     }
+
+    @PostMapping("display/{workoutId}/addCardioGroupExercise")
+    public String processAddCardioGroupExerciseToWorkout(@PathVariable Integer workoutId, @RequestParam Integer exerciseId, HttpSession session) {
+
+        int currentUserId = (Integer) session.getAttribute("user");
+        UserProfile currentProfile = userProfileRepository.findByUserId(currentUserId);
+
+        Optional<CardioExercise> currentExercise = cardioExerciseRepository.findById(exerciseId);
+        Optional<Workout> currentWorkout = workoutRepository.findById(workoutId);
+        if(!currentExercise.isPresent() || !currentWorkout.isPresent()) {
+            return "redirect:";
+        }
+
+
+        CardioExerciseGroup newExerciseGroup = new CardioExerciseGroup(currentExercise.get());
+        newExerciseGroup.setWorkout(currentWorkout.get());
+
+        cardioExerciseGroupRepository.save(newExerciseGroup);
+
+        return "redirect:/workouts/display/" + workoutId;
+    }
 }
