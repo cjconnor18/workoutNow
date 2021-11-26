@@ -38,6 +38,9 @@ public class WorkoutController {
     @Autowired
     LiftingExerciseRepository liftingExerciseRepository;
 
+    @Autowired
+    RepsAndWeightsRepository repsAndWeightsRepository;
+
     @GetMapping("")
     public String listWorkouts (Model model, HttpSession session){
         int currentUserId = (Integer) session.getAttribute("user");
@@ -85,6 +88,7 @@ public class WorkoutController {
        }
 
        model.addAttribute("workout", workoutOpt.get());
+       model.addAttribute("liftings", workoutOpt.get().getExercises());
 
        return "workouts/display";
     }
@@ -118,6 +122,58 @@ public class WorkoutController {
         liftingExerciseGroupRepository.save(newExerciseGroup);
 
         return "redirect:/workouts/display/" + workoutId;
+    }
+
+    @GetMapping("display/{workoutId}/{exerciseId}/addSets")
+    public String addSets(@PathVariable Integer workoutId, @PathVariable Integer exerciseId, Model model) {
+        Optional<LiftingExerciseGroup> groupOpt = liftingExerciseGroupRepository.findById(exerciseId);
+        if(!groupOpt.isPresent()) {
+            return "/workouts/display/" + workoutId;
+        }
+
+        Optional<RepsAndWeights> currentReps = repsAndWeightsRepository.findById(groupOpt.get().getRepsAndWeights().getId());
+        if(!currentReps.isPresent()) {
+            return "redirect:/workouts/display/" + workoutId;
+        }
+        model.addAttribute("workoutId", workoutId);
+        model.addAttribute("exerciseId", exerciseId);
+        model.addAttribute("exerciseGroup", groupOpt.get());
+        model.addAttribute("reps", currentReps.get().getRepsList());
+        model.addAttribute("weights", currentReps.get().getWeightsList());
+        return "workouts/addSets";
+    }
+
+    @PostMapping("display/{workoutId}/{exerciseId}/addSets")
+    public String addSets(@PathVariable Integer workoutId, @PathVariable Integer exerciseId, @RequestParam(defaultValue = "-1.0") Double weight, @RequestParam Double reps) {
+
+        Optional<LiftingExerciseGroup> groupOpt = liftingExerciseGroupRepository.findById(exerciseId);
+        if(!groupOpt.isPresent() || weight < 0) {
+            return "redirect:/workouts/display/" + workoutId;
+        }
+
+        groupOpt.get().getRepsAndWeights().addSet(weight, reps);
+
+
+        //currentReps.get().addSet(weight, reps);
+        repsAndWeightsRepository.save(groupOpt.get().getRepsAndWeights());
+
+        return "redirect:/workouts/display/" + workoutId + "/" + exerciseId + "/addSets";
+    }
+
+    @GetMapping("display/{workoutId}/{exerciseId}/deleteSet/{index}")
+    public String deleteSet(@PathVariable Integer workoutId, @PathVariable Integer exerciseId, @PathVariable Integer index){
+        Optional<LiftingExerciseGroup> groupOpt = liftingExerciseGroupRepository.findById(exerciseId);
+        if(!groupOpt.isPresent()) {
+            return "redirect:/workouts/display/" + workoutId + "/" + exerciseId + "/addSets";
+        }
+
+        RepsAndWeights repsAndWeights = groupOpt.get().getRepsAndWeights();
+        repsAndWeights.deleteSet(index);
+
+        repsAndWeightsRepository.save(repsAndWeights);
+
+        return "redirect:/workouts/display/" + workoutId + "/" + exerciseId + "/addSets";
+
     }
 
 }

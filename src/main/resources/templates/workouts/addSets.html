@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <header th:replace="fragments :: header"></header>
+
+    <h2>Lets create a workout!</h2>
+
+    <p>Current Sets</p>
+    <table th:if="${reps.size() > 0}">
+        <tr>
+            <td>Set</td>
+            <td>Weight(lbs)</td>
+            <td>Reps</td>
+        </tr>
+        <tr th:each="rep,stats:${reps}">
+            <td th:text="${stats.index + 1}"></td>
+            <td th:text="${weights.get(stats.index)}"></td>
+            <td th:text="${#numbers.formatDecimal(rep == null ? 0 : rep, 0, 0)}"></td>
+            <td><a th:href="'/workouts/display/' + ${workoutId}+ '/' + ${exerciseId} + '/deleteSet/' + ${stats.index}" th:text="delete"></a></td>
+        </tr>
+
+    </table>
+
+    <form method="post">
+
+        <label>Weight <input type="number" name="weight" min="0" value="0" /> </label>
+        <label>Reps <input type="number" name="reps" min="0" value="10" /> </label>
+
+        <input type="submit" value="Add Set">
+    </form>
+
+    <p th:text="${user}"></p>
+</body>
+</html>

@@ -22,8 +22,9 @@
     <tr>
         <th>Lifting Exercises</th>
     </tr>
-    <tr>
-        <td>Coming Soon!</td>
+    <tr th:each="lifting:${liftings}">
+        <td><a th:href="'/workouts/display/' + ${workout.id}+ '/' + ${lifting.id} + '/addSets'" th:text="${lifting.liftingExercise.name}"></a></td>
+        <td th:text="${lifting.liftingExercise.equipment}"></td>
     </tr>
 </table>
 
