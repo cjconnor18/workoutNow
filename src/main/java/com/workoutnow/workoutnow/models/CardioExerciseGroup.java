@@ -12,7 +12,7 @@ public class CardioExerciseGroup extends AbstractEntity {
     private CardioExercise cardioExercise;
 
     @OneToOne(cascade = {CascadeType.ALL})
-    private RepsAndWeights repsAndWeights;
+    private DistanceAndTime distanceAndTime;
 
     @ManyToOne
     private Workout workout;
@@ -21,26 +21,26 @@ public class CardioExerciseGroup extends AbstractEntity {
 
     public CardioExerciseGroup() {};
 
-    public CardioExerciseGroup(CardioExercise cardioExercise, RepsAndWeights repsAndWeights, String note) {
+    public CardioExerciseGroup(CardioExercise cardioExercise, DistanceAndTime distanceAndTime, String note) {
         this.cardioExercise = cardioExercise;
-        this.repsAndWeights = repsAndWeights;
+        this.distanceAndTime = distanceAndTime;
         this.note = note;
     }
 
-    public CardioExerciseGroup(CardioExercise cardioExercise, RepsAndWeights repsAndWeights) {
-        this(cardioExercise,repsAndWeights,"");
+    public CardioExerciseGroup(CardioExercise cardioExercise, DistanceAndTime distanceAndTime) {
+        this(cardioExercise,distanceAndTime,"");
     }
 
     public CardioExerciseGroup(CardioExercise cardioExercise) {
-        this(cardioExercise,new RepsAndWeights());
+        this(cardioExercise,new DistanceAndTime());
     }
 
     public CardioExercise getCardioExercise() {
         return cardioExercise;
     }
 
-    public RepsAndWeights getRepsAndWeights() {
-        return repsAndWeights;
+    public DistanceAndTime getDistanceAndTime() {
+        return distanceAndTime;
     }
 
     public String getNote() {
@@ -55,8 +55,8 @@ public class CardioExerciseGroup extends AbstractEntity {
         this.cardioExercise = cardioExercise;
     }
 
-    public void setRepsAndWeights(RepsAndWeights repsAndWeights) {
-        this.repsAndWeights = repsAndWeights;
+    public void setDistanceAndTime(DistanceAndTime distanceAndTime) {
+        this.distanceAndTime = distanceAndTime;
     }
 
     public void setNote(String note) {
