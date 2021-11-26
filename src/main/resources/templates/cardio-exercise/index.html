@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<header th:replace="fragments :: header"></header>
+
+<h2>Lifting Exercises</h2>
+
+<a href="/lifting-exercise/add">Add Cardio Exercise</a>
+
+<ul>
+    <li th:each="exercise : ${exercises}" th:text="${exercise.name + ' - ' + exercise.equipment}"></li>
+</ul>
+
+
+</body>
+</html>
