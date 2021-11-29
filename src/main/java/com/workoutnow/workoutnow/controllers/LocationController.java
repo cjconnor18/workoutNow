@@ -2,16 +2,21 @@ package com.workoutnow.workoutnow.controllers;
 
 import com.workoutnow.workoutnow.models.Location;
 import com.workoutnow.workoutnow.models.User;
+import com.workoutnow.workoutnow.models.UserProfile;
 import com.workoutnow.workoutnow.models.data.LocationRepository;
+import com.workoutnow.workoutnow.models.data.UserProfileRepository;
 import com.workoutnow.workoutnow.models.data.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("location")
@@ -23,9 +28,20 @@ public class LocationController {
     @Autowired
     UserRepository userRepository;
 
-    @GetMapping("add")
-    public String createAddLocation() {
+    @Autowired
+    UserProfileRepository userProfileRepository;
 
+    @GetMapping("add")
+    public String createAddLocation(Model model, HttpSession session) {
+        int currentUserId = (Integer) session.getAttribute("user");
+        User currentUser = userRepository.findById(currentUserId);
+        UserProfile currentProfile = userProfileRepository.findByUserId(currentUserId);
+        List<Location> locations = locationRepository.findByUserProfilesNot(currentProfile);
+        // i believe it still shows any locations that others have joined not
+        // only this member. If this member is the only one that attends that location
+        // then it works fine
+       // List<Location> currentList = locationRepository.findByLocationNot(locationRepository.findByUserProfiles(currentProfile));
+        model.addAttribute("locations", locations);
         return "location/add";
     }
 
@@ -42,7 +58,21 @@ public class LocationController {
         newLocation.addUser(currentUser.getUserProfile());
         locationRepository.save(newLocation);
 
+        return "redirect:/workouts/create";
+    }
 
+    @PostMapping("addMultiples")
+    public String processAddLocation(@RequestParam List<Integer> addLocations, HttpSession session) {
+        int currentUserId = (Integer) session.getAttribute("user");
+        UserProfile currentUser = userProfileRepository.findByUserId(currentUserId);
+        for(Integer aLocation : addLocations) {
+            Optional<Location> currentLocation = locationRepository.findById(aLocation);
+            if(currentLocation.isPresent()) {
+                currentUser.addLocation(currentLocation.get());
+                locationRepository.save(currentLocation.get());
+            }
+        }
+        userProfileRepository.save(currentUser);
 
         return "redirect:/workouts/create";
     }

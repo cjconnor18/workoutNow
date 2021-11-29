@@ -5,9 +5,14 @@ import com.workoutnow.workoutnow.models.UserProfile;
 import org.springframework.data.repository.CrudRepository;
 
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.util.List;
 
 public interface LocationRepository extends CrudRepository<Location, Integer> {
 
     List<Location> findByUserProfiles(UserProfile userProfiles);
+    List<Location> findByUserProfilesNot(UserProfile userProfile);
+
+
+
 }
