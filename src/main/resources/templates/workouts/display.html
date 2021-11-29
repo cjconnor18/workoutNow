@@ -34,8 +34,13 @@
     <tr>
         <th>Cardio Exercises</th>
     </tr>
-    <tr>
-        <td>Coming Soon!</td>
+    <tr th:each="cardio:${cardios}">
+        <td><a th:href="'/workouts/display/' + ${workout.id}+ '/' + ${cardio.id} + '/addCardioSet'" th:text="${cardio.CardioExercise.name}"></a></td>
+        <td th:text="${cardio.CardioExercise.equipment}"></td>
+        <td th:text="${cardio.DistanceAndTime.timeMin + ':' + cardio.DistanceAndTime.timeSeconds}"></td>
+        <td th:text="${cardio.DistanceAndTime.distanceMiles}"></td>
+        <td th:text="${cardio.DistanceAndTime.distanceKM}"></td>
+        <td th:text="${cardio.DistanceAndTime.distanceMeters}"></td>
     </tr>
 </table>
 <a th:href="'/workouts/display/' + ${workout.id}+ '/addCardioGroupExercise'">Add Lifting Exercise</a>

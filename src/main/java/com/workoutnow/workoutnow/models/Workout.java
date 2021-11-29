@@ -14,6 +14,9 @@ public class Workout extends AbstractEntity{
     @OneToMany(mappedBy = "workout")
     private final List<LiftingExerciseGroup> liftingExerciseGroups = new ArrayList<>();
 
+    @OneToMany(mappedBy = "workout")
+    private final List<CardioExerciseGroup> cardioExerciseGroups = new ArrayList<>();
+
     private Date dateOfWorkout;
 
     @ManyToOne
@@ -37,6 +40,10 @@ public class Workout extends AbstractEntity{
 
     public List<LiftingExerciseGroup> getExercises() {
         return this.liftingExerciseGroups;
+    }
+
+    public List<CardioExerciseGroup> getCardioExerciseGroups() {
+        return cardioExerciseGroups;
     }
 
     public Date getDateOfWorkout() {

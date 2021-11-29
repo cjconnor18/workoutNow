@@ -47,6 +47,9 @@ public class WorkoutController {
     @Autowired
     CardioExerciseRepository cardioExerciseRepository;
 
+    @Autowired
+    DistanceAndTimeRepository distanceAndTimeRepository;
+
     @GetMapping("")
     public String listWorkouts (Model model, HttpSession session){
         int currentUserId = (Integer) session.getAttribute("user");
@@ -82,7 +85,7 @@ public class WorkoutController {
 
         model.addAttribute("user", currentUser.getUserProfile());
         model.addAttribute("workouts", workoutRepository.findByUserProfile(currentUser.getUserProfile()));
-        return "workouts/index";
+        return "redirect:/workouts/display/" + currentWorkout.getId() ;
 
     }
 
@@ -95,7 +98,7 @@ public class WorkoutController {
 
        model.addAttribute("workout", workoutOpt.get());
        model.addAttribute("liftings", workoutOpt.get().getExercises());
-
+       model.addAttribute("cardios", workoutOpt.get().getCardioExerciseGroups());
        return "workouts/display";
     }
 
@@ -127,7 +130,7 @@ public class WorkoutController {
         newExerciseGroup.setWorkout(currentWorkout.get());
         liftingExerciseGroupRepository.save(newExerciseGroup);
 
-        return "redirect:/workouts/display/" + workoutId;
+        return "redirect:/workouts/display/" + workoutId + "/" + newExerciseGroup.getId() + "/addSets";
     }
 
     @GetMapping("display/{workoutId}/{exerciseId}/addSets")
@@ -205,12 +208,55 @@ public class WorkoutController {
             return "redirect:";
         }
 
-
         CardioExerciseGroup newExerciseGroup = new CardioExerciseGroup(currentExercise.get());
         newExerciseGroup.setWorkout(currentWorkout.get());
 
         cardioExerciseGroupRepository.save(newExerciseGroup);
 
-        return "redirect:/workouts/display/" + workoutId;
+        return "redirect:/workouts/display/" + workoutId + "/" + newExerciseGroup.getId() + "/addCardioSet";
+    }
+
+    @GetMapping("display/{workoutId}/{exerciseId}/addCardioSet")
+    public String createAddCardioSet(@PathVariable Integer workoutId, @PathVariable Integer exerciseId, Model model) {
+        Optional<CardioExerciseGroup> groupOpt = cardioExerciseGroupRepository.findById(exerciseId);
+        if(!groupOpt.isPresent()) {
+            System.out.println("here on 220===========");
+            return "/workouts/display/" + workoutId;
+        }
+
+        Optional<CardioExercise> currentCardio = cardioExerciseRepository.findById(groupOpt.get().getCardioExercise().getId());
+        if(!currentCardio.isPresent()) {
+            System.out.println("here on 226===========");
+            return "redirect:/workouts/display/" + workoutId;
+        }
+        model.addAttribute("workoutId", workoutId);
+        model.addAttribute("exerciseId", exerciseId);
+        model.addAttribute("exerciseGroup", groupOpt.get());
+        model.addAttribute("cardio", currentCardio.get());
+        model.addAttribute("timeAndDistance",  groupOpt.get().getDistanceAndTime());
+
+        return "workouts/addCardioSet";
+    }
+
+    @PostMapping("display/{workoutId}/{exerciseId}/addCardioSet")
+    public String processAddCardioSet(@PathVariable Integer workoutId, @PathVariable Integer exerciseId, @RequestParam(defaultValue = "-1.0") Integer minutes, @RequestParam Double seconds, @RequestParam Double distance, @RequestParam String distanceSelection) {
+
+        Optional<CardioExerciseGroup> groupOpt = cardioExerciseGroupRepository.findById(exerciseId);
+        if(!groupOpt.isPresent() || distance < 0) {
+            return "redirect:/workouts/display/" + workoutId;
+        }
+
+        groupOpt.get().getDistanceAndTime().setTimeMin(minutes);
+        groupOpt.get().getDistanceAndTime().setTimeSeconds(seconds);
+        if(distanceSelection.equalsIgnoreCase("miles")) {
+            groupOpt.get().getDistanceAndTime().setDistanceMiles(distance);
+        } else if(distanceSelection.equalsIgnoreCase("meters")) {
+            groupOpt.get().getDistanceAndTime().setDistanceMeters(distance);
+        } else if(distanceSelection.equalsIgnoreCase("kilometers")) {
+            groupOpt.get().getDistanceAndTime().setDistanceKM(distance);
+        }
+
+        distanceAndTimeRepository.save(groupOpt.get().getDistanceAndTime());
+        return "redirect:/workouts/display/" + workoutId + "/" + exerciseId + "/addCardioSet";
     }
 }
