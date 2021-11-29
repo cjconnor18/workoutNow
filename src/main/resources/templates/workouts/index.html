@@ -10,6 +10,9 @@
 
 <p th:text="${'Hello ' + user.firstName}"></p>
 
+<a th:href="@{/workouts/create}">Create Workout</a>
+
+<p>Latest Workouts</p>
 <table th:replace="fragments :: workoutListTable"></table>
 
 </body>
