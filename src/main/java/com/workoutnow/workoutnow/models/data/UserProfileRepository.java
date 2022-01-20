@@ -8,5 +8,6 @@ import org.springframework.data.repository.CrudRepository;
 public interface UserProfileRepository  extends CrudRepository<UserProfile, Integer> {
 
     UserProfile findByUser(User user);
+    UserProfile findByUserId(Integer userId);
 
 }

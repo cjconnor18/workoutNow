@@ -28,13 +28,13 @@ public class HomeController {
         User currentUser = userRepository.findById(currentUserId);
 
 
-        UserProfile userProfileCurent = userProfileRepository.findByUser(currentUser);
+        UserProfile userProfileCurrent = userProfileRepository.findByUser(currentUser);
 //        if(currentUserProfile.isPresent()) {
 //            model.addAttribute("user", currentUserProfile.get());
 //        } else {
 //            model.addAttribute("user", "");
 //        }
-        model.addAttribute("user", userProfileCurent);
+        model.addAttribute("user", userProfileCurrent);
         return "index";
     }
 

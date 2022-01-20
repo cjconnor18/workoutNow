@@ -27,6 +27,12 @@ public class UserProfile extends AbstractEntity {
     @OneToMany(mappedBy = "userProfile")
     private final List<Workout> workouts = new ArrayList<>();
 
+    @ManyToMany
+    private final List<LiftingExercise> liftingExercises = new ArrayList<>();
+
+    @ManyToMany
+    private final List<CardioExercise> cardioExercises = new ArrayList<>();
+
     public UserProfile() {};
 
     public UserProfile(User user, String firstName, String lastName, String email) {
@@ -72,8 +78,25 @@ public class UserProfile extends AbstractEntity {
         return this.workouts;
     }
 
+
+
     public List<Location> getLocations() {return this.locations; }
 
     public void addLocation(Location location) {this.locations.add(location); }
 
+    public List<LiftingExercise> getLiftingExercises() {
+        return liftingExercises;
+    }
+
+    public void addLiftingExercise(LiftingExercise liftingExercise) {
+        this.liftingExercises.add(liftingExercise);
+    }
+
+    public List<CardioExercise> getCardioExercises() {
+        return cardioExercises;
+    }
+
+    public void addCardioExercise(CardioExercise cardioExercise) {
+        this.cardioExercises.add(cardioExercise);
+    }
 }
