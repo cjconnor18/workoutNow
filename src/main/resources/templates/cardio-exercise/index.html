@@ -8,9 +8,9 @@
 
 <header th:replace="fragments :: header"></header>
 
-<h2>Lifting Exercises</h2>
+<h2>Cardio Exercises</h2>
 
-<a href="/lifting-exercise/add">Add Cardio Exercise</a>
+<a href="/cardio-exercise/add">Add Cardio Exercise</a>
 
 <ul>
     <li th:each="exercise : ${exercises}" th:text="${exercise.name + ' - ' + exercise.equipment}"></li>
