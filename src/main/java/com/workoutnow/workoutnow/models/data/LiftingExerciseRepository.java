@@ -9,5 +9,6 @@ import java.util.List;
 public interface LiftingExerciseRepository extends CrudRepository<LiftingExercise, Integer> {
 
     public List<LiftingExercise> findByUserProfiles(UserProfile userProfile);
+    public LiftingExercise findById(int id);
 
 }

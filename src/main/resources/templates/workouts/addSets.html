@@ -7,7 +7,7 @@
 <body>
     <header th:replace="fragments :: header"></header>
 
-    <h2>Lets create a workout!</h2>
+    <h2 th:text="${exercise.name} + ' - ' + ${exercise.equipment}">Lets create a workout!</h2>
 
     <p>Current Sets</p>
     <table th:if="${reps.size() > 0}">
@@ -33,6 +33,7 @@
         <input type="submit" value="Add Set">
     </form>
 
+    <a th:href="${'/workouts/display/' + workoutId}">Return to Workout</a>
 
 </body>
 </html>

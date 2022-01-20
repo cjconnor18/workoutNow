@@ -9,18 +9,16 @@
 
     <h2>Lets add an Exercise!</h2>
 
-
     <form method="post">
-
         <label for="exercise">Select Exercise: </label>
         <select name="exerciseId" id="exercise">
-            <option th:each="exercise:${exercises}" th:value="${exercise.id}" th:text="${exercise.name} "></option>
+            <option th:each="exercise:${exercises}" th:value="${exercise.id}" th:text="${exercise.name} + ' - ' +${exercise.equipment}"></option>
         </select>
-        <a th:href="@{/cardio-exercise/add}">Add Exercise</a>
 
-
-        <input type="submit" value="addExercise">
+        <input type="submit" value="Add Exercise">
     </form>
+
+    <a th:href="@{/cardio-exercise/add}">Add Exercise</a>
 
     <p th:text="${user}"></p>
 </body>

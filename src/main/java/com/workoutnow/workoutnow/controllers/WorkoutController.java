@@ -144,8 +144,13 @@ public class WorkoutController {
         if(!currentReps.isPresent()) {
             return "redirect:/workouts/display/" + workoutId;
         }
+//        Optional<LiftingExercise> exercise = liftingExerciseRepository.findById(exerciseId);
+//        if(!exercise.isPresent()) {
+//            return "redirect:/workouts/display/" + workoutId;
+//        }
         model.addAttribute("workoutId", workoutId);
         model.addAttribute("exerciseId", exerciseId);
+        model.addAttribute("exercise", groupOpt.get().getLiftingExercise());
         model.addAttribute("exerciseGroup", groupOpt.get());
         model.addAttribute("reps", currentReps.get().getRepsList());
         model.addAttribute("weights", currentReps.get().getWeightsList());
@@ -231,6 +236,7 @@ public class WorkoutController {
         }
         model.addAttribute("workoutId", workoutId);
         model.addAttribute("exerciseId", exerciseId);
+        model.addAttribute("exercise", groupOpt.get().getCardioExercise());
         model.addAttribute("exerciseGroup", groupOpt.get());
         model.addAttribute("cardio", currentCardio.get());
         model.addAttribute("timeAndDistance",  groupOpt.get().getDistanceAndTime());
