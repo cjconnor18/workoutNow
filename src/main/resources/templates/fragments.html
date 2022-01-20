@@ -12,13 +12,23 @@
         </div>
         <div class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li><a href="/workouts/create">Create Workout</a></li>
-                <li><a href="/workouts/">Display Workouts</a></li>
+                <li><a href="/workouts/">Workout</a></li>
+                <li><a href="/lifting-exercise/">Lifting Exercises</a></li>
+                <li><a href="/cardio-exercise/">Cardio Exercises</a></li>
                 <li><a th:href="@{/logout}">Logout</a></li>
             </ul>
         </div>
     </div>
 </div>
+
+<table th:fragment="workoutListTable">
+    <tr th:each="workout : ${workouts}">
+        <td><a th:href="'/workouts/display/' + ${workout.id}" th:text="${workout.dateOfWorkout}"></a></td>
+        <td th:text="${workout.location.facilityName}"></td>
+        <td th:text="${workout.location.city + ', ' + workout.location.state}"></td>
+        <td th:text="${workout.userProfile.firstName + ' ' + workout.userProfile.lastName}"></td>
+    </tr>
+</table>
 
 
 </body>

@@ -3,14 +3,19 @@ package com.workoutnow.workoutnow.models;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Workout extends AbstractEntity{
 
     @ManyToOne
-    private User user;
+    private UserProfile userProfile;
 
-    private final ArrayList<String> exercises = new ArrayList<>();
+    @OneToMany(mappedBy = "workout")
+    private final List<LiftingExerciseGroup> liftingExerciseGroups = new ArrayList<>();
+
+    @OneToMany(mappedBy = "workout")
+    private final List<CardioExerciseGroup> cardioExerciseGroups = new ArrayList<>();
 
     private Date dateOfWorkout;
 
@@ -19,23 +24,26 @@ public class Workout extends AbstractEntity{
 
     public Workout() {};
 
-    public Workout(User user, Date date, Location location) {
-        this.user = user;
+    public Workout(UserProfile userProfile, Date date, Location location) {
+        this.userProfile = userProfile;
         this.location = location;
         this.dateOfWorkout = date;
     };
 
-    public Workout(User user, Location location) {
-        this(user, new Date(), location);
+    public Workout(UserProfile userProfile, Location location) {
+        this(userProfile, new Date(), location);
     };
 
-    public User getUser() {
-        return user;
+    public UserProfile getUserProfile() {
+        return userProfile;
     }
 
+    public List<LiftingExerciseGroup> getExercises() {
+        return this.liftingExerciseGroups;
+    }
 
-    public ArrayList<String> getExercises() {
-        return exercises;
+    public List<CardioExerciseGroup> getCardioExerciseGroups() {
+        return cardioExerciseGroups;
     }
 
     public Date getDateOfWorkout() {
@@ -54,13 +62,13 @@ public class Workout extends AbstractEntity{
         this.location = location;
     }
 
-    public void addExercise(String anExercise) {
-        this.exercises.add(anExercise);
+    public void addExercise(LiftingExerciseGroup liftingExerciseGroup) {
+        this.liftingExerciseGroups.add(liftingExerciseGroup);
     }
 
-    public void removeExercise(String anExercise) {
-        if(this.exercises.contains(anExercise)){
-            exercises.remove(anExercise);
+    public void removeExercise(LiftingExerciseGroup liftingExerciseGroup) {
+        if(this.liftingExerciseGroups.contains(liftingExerciseGroup)){
+            this.liftingExerciseGroups.remove(liftingExerciseGroup);
         }
     }
 }

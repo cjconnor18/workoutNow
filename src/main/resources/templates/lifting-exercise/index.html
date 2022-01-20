@@ -8,12 +8,14 @@
 
 <header th:replace="fragments :: header"></header>
 
-<p th:text="${'Hello ' + user.firstName}"></p>
+<h2>Lifting Exercises</h2>
 
-<a th:href="@{/workouts/create}">Create Workout</a>
+<a href="/lifting-exercise/add">Add Lifting Exercise</a>
 
-<p>Latest Workouts</p>
-<table th:replace="fragments :: workoutListTable"></table>
+<ul>
+    <li th:each="exercise : ${exercises}" th:text="${exercise.name + ' - ' + exercise.equipment}"></li>
+</ul>
+
 
 </body>
 </html>

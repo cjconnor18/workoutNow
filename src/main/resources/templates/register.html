@@ -24,6 +24,27 @@
         </label>
     </div>
 
+    <div class="form-group">
+        <label>First Name
+            <input class="form-control" th:field="${userProfileDTO.firstName}" type="text" />
+        </label>
+        <p class="error" th:errors="${userProfileDTO.firstName}"></p>
+    </div>
+    <div class="form-group">
+        <label>Last Name
+            <input class="form-control" th:field="${userProfileDTO.lastName}" type="text" />
+        </label>
+        <p class="error" th:errors="${userProfileDTO.lastName}"></p>
+    </div>
+    <div class="form-group">
+        <label>Email
+            <input class="form-control" th:field="${userProfileDTO.email}" type="email" />
+        </label>
+        <p class="error" th:errors="${userProfileDTO.email}"></p>
+    </div>
+
+
+
     <input type="submit" class="btn btn-primary" value="Register" />
 </form>
 

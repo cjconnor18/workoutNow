@@ -6,6 +6,10 @@
 </head>
 <body>
     <header th:replace="fragments :: header"></header>
+<!--
+    <p th:if="${locations.size() > 0}">
+    <p th:each="location:${locations}"><p th:text="${location.facilityName}"></p></p></p>
+-->
 
     <form method="post">
         <label>Facility Name: <input type="text" name="facilityName"></label>
@@ -13,5 +17,24 @@
         <label>State: <input type="text" name="state"></label>
         <input type="submit" value="Create Location">
     </form>
+
+    <div th:if="${locations.size() > 0}">
+        <p>Or select from options below to add to your locations!</p>
+
+        <form action="/location/addMultiples" method="post">
+            <table >
+                <tr th:each="location : ${locations}">
+                    <td><input type="checkbox" name="addLocations" th:value="${location.id}"></td>
+                    <td th:text="${location.facilityName}"></td>
+                    <td th:text="${location.city}"></td>
+                    <td th:text="${location.state}"></td>
+                </tr>
+
+            </table>
+
+            <input type="submit" value="Add Location">
+        </form>
+
+    </div>    
 </body>
 </html>

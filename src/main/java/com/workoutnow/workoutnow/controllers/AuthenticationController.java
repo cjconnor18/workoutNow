@@ -1,9 +1,12 @@
 package com.workoutnow.workoutnow.controllers;
 
 import com.workoutnow.workoutnow.models.User;
+import com.workoutnow.workoutnow.models.UserProfile;
+import com.workoutnow.workoutnow.models.data.UserProfileRepository;
 import com.workoutnow.workoutnow.models.data.UserRepository;
 import com.workoutnow.workoutnow.models.dto.LoginFormDTO;
 import com.workoutnow.workoutnow.models.dto.RegisterFormDTO;
+import com.workoutnow.workoutnow.models.dto.UserProfileDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +25,9 @@ public class AuthenticationController {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    UserProfileRepository userProfileRepository;
 
     private static final String userSessionKey = "user";
 
@@ -46,17 +52,23 @@ public class AuthenticationController {
 
     @GetMapping("/register")
     public String displayRegistrationForm(Model model) {
-        model.addAttribute(new RegisterFormDTO());
+
         model.addAttribute("title", "Register");
+        model.addAttribute(new RegisterFormDTO());
+        model.addAttribute(new UserProfileDTO());
         return "register";
     }
 
     @PostMapping("/register")
     public String processRegistrationForm(@ModelAttribute @Valid RegisterFormDTO registerFormDTO,
-                                          Errors errors, HttpServletRequest request,
+                                          Errors errors, @ModelAttribute @Valid UserProfileDTO userProfileDTO, Errors errors2, HttpServletRequest request,
                                           Model model) {
 
         if (errors.hasErrors()) {
+            model.addAttribute("title", "Register");
+            return "register";
+        }
+        if( errors2.hasErrors()) {
             model.addAttribute("title", "Register");
             return "register";
         }
@@ -77,8 +89,19 @@ public class AuthenticationController {
             return "register";
         }
 
+
         User newUser = new User(registerFormDTO.getUsername(), registerFormDTO.getPassword());
+        UserProfile newProfile = new UserProfile(newUser, userProfileDTO.getFirstName(),userProfileDTO.getLastName(), userProfileDTO.getEmail());
+
+//        System.out.println("Here on 96");
+//        userProfileRepository.save(newProfile);
+
+
+        newUser.setUserProfile(newProfile);
+        System.out.println("Here on 101" + newUser.getUsername() + newUser.getId());
         userRepository.save(newUser);
+
+
         setUserInSession(request.getSession(), newUser);
 
         return "redirect:";
@@ -119,7 +142,7 @@ public class AuthenticationController {
 
         setUserInSession(request.getSession(), theUser);
 
-        return "redirect:";
+        return "redirect:workouts/";
     }
 
     @GetMapping("/logout")

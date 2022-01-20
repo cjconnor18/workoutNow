@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <header th:replace="fragments :: header"></header>
+
+    <h2 th:text="${exercise.name} + ' - ' + ${exercise.equipment}">Lets create a workout!</h2>
+
+    <p>Current Sets</p>
+    <table >
+        <tr>
+            <td>Time</td>
+            <td>Distance(Miles)</td>
+            <td>Distance(Kilometers)</td>
+            <td>Distance(Meters)</td>
+        </tr>
+        <tr>
+            <td th:text="${timeAndDistance.timeMin + ':' + timeAndDistance.timeSeconds}"></td>
+            <td th:text="${timeAndDistance.distanceMiles}"></td>
+            <td th:text="${timeAndDistance.distanceKM}"></td>
+            <td th:text="${timeAndDistance.distanceMeters}"></td>
+        </tr>
+
+    </table>
+
+    <form method="post">
+
+        <label>Time Minutes <input type="number" name="minutes" min="0" value="0" /> </label>
+        <label>Time Seconds <input type="number" name="seconds" min="0" value="0" step=".01"/> </label>
+        <label>Distance<input type="number" name="distance" min="0" step=".01" value="0"/> </label>
+
+        <select name="distanceSelection" >
+            <option value="miles">miles</option>
+            <option value="meters">meters</option>
+            <option value="kilometers">kilometers</option>
+        </select>
+
+        <input type="submit" value="Edit Cardio">
+    </form>
+
+    <a th:href="${'/workouts/display/' + workoutId}">Return to Workout</a>
+
+</body>
+</html>
