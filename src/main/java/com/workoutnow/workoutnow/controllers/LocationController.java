@@ -41,10 +41,6 @@ public class LocationController {
         for (Location location : currentLocations) {
             locations.removeIf(location2 -> location2.equals(location));
         }
-        // i believe it still shows any locations that others have joined not
-        // only this member. If this member is the only one that attends that location
-        // then it works fine
-       // List<Location> currentList = locationRepository.findByLocationNot(locationRepository.findByUserProfiles(currentProfile));
         model.addAttribute("locations", locations);
         return "location/add";
     }
