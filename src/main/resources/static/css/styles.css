@@ -10,8 +10,12 @@ a:visited{
     color: blue;
 }
 
+h3 {
+    text-align: center;
+}
 
 .workout-table{
+    margin: 1em auto 0em auto;
     border: .1em solid #ddd;
     border-collapse: collapse;
 }
