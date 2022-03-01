@@ -27,6 +27,8 @@
         <td th:text="${workout.location.facilityName}"></td>
         <td th:text="${workout.location.city + ', ' + workout.location.state}"></td>
         <td th:text="${workout.userProfile.firstName + ' ' + workout.userProfile.lastName}"></td>
+        <td th:text="${workout.exercises.size()} ?: '0'"></td>
+        <td th:text="${workout.cardioExerciseGroups.size()} ?: '0'"></td>
     </tr>
 </table>
 
