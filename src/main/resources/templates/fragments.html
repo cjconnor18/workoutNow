@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org/">
 <head>
-    <meta charset="UTF-8">
+    <div th:fragment="head-style-meta">
+        <meta charset="UTF-8">
+        <link rel = "stylesheet" th:href="@{/css/styles.css}" />
+    </div>
     <title>Title</title>
 </head>
 <body>
-<div th:fragment="header" class="navbar navbar-inverse navbar-fixed-top">
+<div th:fragment="header">
     <div class="container">
         <div class="navbar-header">
             <a href="/" class="navbar-brand">Workout Now</a>
@@ -21,7 +24,16 @@
     </div>
 </div>
 
-<table th:fragment="workoutListTable">
+<table th:fragment="workoutListTable" class="workout-table">
+    <col-group ></col-group>
+    <tr>
+        <th>Date</th>
+        <th>Facility Name</th>
+        <th>City, State</th>
+        <th>User</th>
+        <th># of Lifting</th>
+        <th># of Cardio</th>
+    </tr>
     <tr th:each="workout : ${workouts}">
         <td><a th:href="'/workouts/display/' + ${workout.id}" th:text="${workout.dateOfWorkout}"></a></td>
         <td th:text="${workout.location.facilityName}"></td>

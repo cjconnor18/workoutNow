@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org/">
-<head th:replace="fragments :: head"></head>
+<head>
+    <div th:replace="fragments :: head-style-meta"></div>
+    <title>title</title>
+</head>
 <body class="container">
 
 <header th:replace="fragments :: header"></header>

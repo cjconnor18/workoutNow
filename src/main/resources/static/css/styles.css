@@ -1,0 +1,22 @@
+*{
+    font-size: 18px;
+}
+
+a{
+    color: blue;
+}
+
+a:visited{
+    color: blue;
+}
+
+
+.workout-table{
+    border: .1em solid #ddd;
+    border-collapse: collapse;
+}
+.workout-table td, .workout-table th{
+    text-align: center;
+    border-bottom: .1em solid #ddd;
+    padding: 1em;
+}
